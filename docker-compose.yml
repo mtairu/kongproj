@@ -1,0 +1,50 @@
+version: '3.3'
+services:                
+    postgresql:            
+        image: postgres:9.6
+        restart: always  
+        environment:     
+          - POSTGRES_PASSWORD=mnGS8b9t
+        ports:
+          - '5432:5432'
+        volumes: 
+          - ./pg-init.sql:/docker-entrypoint-initdb.d/pg-init.sql
+          - /var/opt/docker/postgresql:/var/lib/postgresql/data
+    mysql:
+        image: mysql:latest
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=zKlg2SeM
+        ports:
+            - '3306:3306'
+        volumes:
+            - ./mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
+            - ./sample_db.sql:/docker-entrypoint-initdb.d/sample_db.sql
+            - /var/opt/docker/mysql:/var/lib/mysql
+    kongoss:
+         image: 'bitnami/kong' 
+         restart: always
+         environment:
+             - KONG_DATABASE=postgres
+             - KONG_PG_HOST=postgresql
+             - KONG_PG_PORT=5432
+             - KONG_PG_PASSWORD=84ndq4G2
+             - KONG_PG_USER=kong
+             - KONG_MIGRATE=yes
+             - KONG_PG_TIMEOUT=5000
+         ports:
+             - '8000:8000'
+             - '8443:8443'
+             - '8001:8001'
+             - '8444:8444'
+    fastapi:
+        build: .
+        environment:
+        - DB_HOST=mysql
+        - DB_USER=fastapi
+        - DB_PASS=x2VUdt0N
+        - DB_NAME=sample_bls_db
+        ports:
+            - '9090:9090'
+
+
