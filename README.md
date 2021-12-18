@@ -10,6 +10,13 @@
 1. Working installation
 2. Documentation
 
+#### Overview
+This project has 3 modular parts
+1. Docker containers
+2. LXC containers
+3. Nginx configuration
+
+
 ### Documentation
 ![enter image description here](https://imgur.com/scjoZMQ.png)
 
