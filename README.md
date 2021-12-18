@@ -35,10 +35,21 @@ Ubuntu distros already have LXC installed. To confirm run `sudo lxc --version` t
 - Run `sudo lxc launch images:<focal-fossa-hash> konga`
 - From the image the correct hash is *f6734866c479*. To start a LXC container the command becomes `sudo lxc launch images:f6734866c479 konga`
 
-##### Build and run Konga
-[Konga on Github](https://github.com/pantsel/konga)
-Checklist 
+##### Login to the newly created LXC image
+Run `sudo lxc exec konga -- /bin/bash`
 
- - [ ] Install PostgreSQL
- - [ ] Install NPM, Node 12, bower, gulp
- - [ ] Clone Konga repo
+##### Install dependencies
+After logging into the container the next step will be to install dependencies.
+1. Run `sudo apt install postgresql git build-essential`
+2. Run `cd /opt && sudo git clone https://github.com/pantsel/konga.git`
+3. `sudo curl -fsSL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs`
+
+##### Run Konga
+To complete the install follow the instructions at https://github.com/pantsel/konga#production
+
+Extracted from the Konga github page
+1. Run migrations with `node ./bin/konga.js  prepare --adapter postgres --uri postgresql://localhost:5432/konga`
+2. `$ npm run bower-deps`
+3. `$ npm run production` to start Konga
+4. Konga should be avaliable at http://localhost:1337
